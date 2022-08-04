@@ -10,57 +10,89 @@
       href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
     />
 
+    <script type="application/json" id="data">
+      {
+        "@id": "",
+        "q": "QmTN4Eas9atUULVbEAbUU8cowhtvK7g3t7jfKztY7wc8eP",
+        "redirect": false,
+        "info": false
+      }
+    </script>
+
+    <script type="module">
+      import { render, html } from 'https://cdn.skypack.dev/spux'
+      import 'https://cdn.skypack.dev/dior'
+
+      var mh = di.data.q
+      var gateway = 'https://cloudflare-ipfs.com/ipfs/'
+
+      function info () {
+        console.log(1)
+      }
+
+      function redirect (e) {
+        console.log(gateway + mh)
+        location.href = gateway + mh
+      }
+
+      render(
+        html`
+          <!--Search Navbar-->
+          <nav class="navbar">
+            <div class="left-side-top-menu">
+              <a class="about-menu" href="#"></a>
+            </div>
+            <div class="right-side-top-menu">
+              <button class="sign-in">Sign In</button>
+            </div>
+          </nav>
+          <!--Search Main-->
+          <main class="main-content">
+            <p></p>
+            <h1>Multi Hash!</h1>
+            <a href="#"
+              ><img
+                class="keyboard"
+                src="https://www.gstatic.com/inputtools/images/tia.png"
+                alt=""
+            /></a>
+            <a href="#"
+              ><img
+                class="mic-json"
+                src="https://raw.githubusercontent.com/spux/json.rocks/gh-pages/images/googlemic_color_24dp.png"
+                alt=""
+            /></a>
+
+            <div class="search-bar">
+              <i class="fas fa-search"></i>
+
+              <input
+                type="text"
+                id="search"
+                name="uri"
+                placeholder="Mutihash or CID"
+                autofocus
+                value="${mh}"
+              />
+            </div>
+
+            <div class="btn-container">
+              <button onClick="${info}" class="json-search">
+                Info
+              </button>
+              <button onClick="${redirect}" class="lucky-btn">
+                Redirect
+              </button>
+            </div>
+          </main>
+        `,
+        document.body
+      )
+
+      console.log(di.data)
+    </script>
+
     <title>Multi Hash</title>
   </head>
-  <body>
-    <!--Search Navbar-->
-    <nav class="navbar">
-      <div class="left-side-top-menu">
-        <a class="about-menu" href="#"></a>
-      </div>
-      <div class="right-side-top-menu">
-        <button class="sign-in">Sign In</button>
-      </div>
-    </nav>
-    <!--Search Main-->
-    <main class="main-content">
-      <p></p>
-      <h1>Multi Hash!</h1>
-      <a href="#"
-        ><img
-          class="keyboard"
-          src="https://www.gstatic.com/inputtools/images/tia.png"
-          alt=""
-      /></a>
-      <a href="#"
-        ><img
-          class="mic-json"
-          src="https://raw.githubusercontent.com/spux/json.rocks/gh-pages/images/googlemic_color_24dp.png"
-          alt=""
-      /></a>
-
-      <form name="q" action="/">
-        <div class="search-bar">
-          <i class="fas fa-search"></i>
-
-          <input
-            type="text"
-            id="search"
-            name="uri"
-            placeholder="Mutihash or CID"
-            autofocus
-          />
-        </div>
-      </form>
-
-      <div class="btn-container">
-        <button onClick="javascript:document.q.submit()" class="json-search">
-          Info
-        </button>
-        <button onClick="javascript:document.q.submit()" class="lucky-btn">
-          Redirect
-        </button>
-      </div>
-    </main>
-  </body>
+  <body></body>
 </html>
