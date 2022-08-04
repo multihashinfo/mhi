@@ -1,6 +1,6 @@
 {
   "name": "mhi",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "multi hash info",
   "main": "index.js",
   "type": "module",
