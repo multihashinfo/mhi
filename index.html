@@ -35,9 +35,17 @@
           this.change = this.change.bind(this)
           this.redirect = this.redirect.bind(this)
           this.info = this.info.bind(this)
+
+          var mh = params.q || di.data.q
+          var gateway = params.gateway || 'https://cloudflare-ipfs.com/ipfs/'
+
+          if (params.r) {
+            this.redirectAgent(gateway + mh)
+          }
+
           this.state = {
-            mh: params.q || di.data.q,
-            gateway: params.gateway || 'https://cloudflare-ipfs.com/ipfs/'
+            mh: mh,
+            gateway: gateway
           }
         }
 
@@ -47,7 +55,12 @@
 
         redirect (e) {
           console.log(this.state.gateway)
-          location.href = this.state.gateway + this.state.mh
+          const uri = this.state.gateway + this.state.mh
+          this.redirectAgent(uri)
+        }
+
+        redirectAgent (uri) {
+          location.href = uri
         }
 
         change (e) {
