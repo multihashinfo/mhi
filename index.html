@@ -15,7 +15,17 @@
         "@id": "",
         "redirect": false,
         "info": false,
-        "gateway": "https://cloudflare-ipfs.com/ipfs/"
+        "gateway": "https://cloudflare-ipfs.com/ipfs/",
+        "examples": [
+          {
+            "name": "Verdi-Nabucco",
+            "hash": "QmXv7TpGgdhyjp7L1QkSFNjdq9zwoG1YHi4nykYt16Ve1r"
+          },
+          {
+            "name": "nostr-logo",
+            "hash": "QmTN4Eas9atUULVbEAbUU8cowhtvK7g3t7jfKztY7wc8eP"
+          }
+        ]
       }
     </script>
 
@@ -112,6 +122,18 @@
                   value="${this.state.mh}"
                   onKeyUp="${this.change}"
                 />
+              </div>
+
+              <div style="padding-top: 10px">
+                <small
+                  >e.g. ${' | '}
+                  ${di.data.examples.map(i => {
+                    return html`
+                      <a href="${di.data.gateway + i.hash}">${i.name}</a
+                      >${' | '}
+                    `
+                  })}
+                </small>
               </div>
 
               <div class="btn-container">
