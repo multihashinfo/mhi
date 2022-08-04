@@ -13,78 +13,106 @@
     <script type="application/json" id="data">
       {
         "@id": "",
-        "q": "QmTN4Eas9atUULVbEAbUU8cowhtvK7g3t7jfKztY7wc8eP",
         "redirect": false,
         "info": false
       }
     </script>
 
     <script type="module">
-      import { render, html } from 'https://cdn.skypack.dev/spux'
+      import { render, html, Component } from 'https://cdn.skypack.dev/spux'
       import 'https://cdn.skypack.dev/dior'
 
-      var mh = di.data.q
-      var gateway = 'https://cloudflare-ipfs.com/ipfs/'
+      class App extends Component {
+        constructor (props) {
+          const params = new Proxy(
+            new URLSearchParams(window.location.search),
+            {
+              get: (searchParams, prop) => searchParams.get(prop)
+            }
+          )
 
-      function info () {
-        console.log(1)
-      }
+          super(props)
+          this.change = this.change.bind(this)
+          this.redirect = this.redirect.bind(this)
+          this.info = this.info.bind(this)
+          this.state = {
+            mh: params.q || di.data.q,
+            gateway: params.gateway || 'https://cloudflare-ipfs.com/ipfs/'
+          }
+        }
 
-      function redirect (e) {
-        console.log(gateway + mh)
-        location.href = gateway + mh
+        info () {
+          console.log('info coming soon ...')
+        }
+
+        redirect (e) {
+          console.log(this.state.gateway)
+          location.href = this.state.gateway + this.state.mh
+        }
+
+        change (e) {
+          console.log('change', e.target.value)
+          this.setState({ mh: e.target.value })
+        }
+
+        render () {
+          return html`
+            <!--Search Navbar-->
+            <nav class="navbar">
+              <div class="left-side-top-menu">
+                <a class="about-menu" href="#"></a>
+              </div>
+              <div class="right-side-top-menu">
+                <button class="sign-in">Sign In</button>
+              </div>
+            </nav>
+            <!--Search Main-->
+            <main class="main-content">
+              <p></p>
+              <h1>Multi Hash!</h1>
+              <a href="#"
+                ><img
+                  class="keyboard"
+                  src="https://www.gstatic.com/inputtools/images/tia.png"
+                  alt=""
+              /></a>
+              <a href="#"
+                ><img
+                  class="mic-json"
+                  src="https://raw.githubusercontent.com/spux/json.rocks/gh-pages/images/googlemic_color_24dp.png"
+                  alt=""
+              /></a>
+
+              <div class="search-bar">
+                <i class="fas fa-search"></i>
+
+                <input
+                  type="text"
+                  id="search"
+                  name="uri"
+                  placeholder="Mutihash or CID"
+                  autofocus
+                  value="${this.state.mh}"
+                  onKeyUp="${this.change}"
+                />
+              </div>
+
+              <div class="btn-container">
+                <button onClick="${this.info}" class="json-search">
+                  Info
+                </button>
+                <button onClick="${this.redirect}" class="lucky-btn">
+                  Redirect
+                </button>
+              </div>
+            </main>
+          `
+        }
       }
 
       render(
         html`
-          <!--Search Navbar-->
-          <nav class="navbar">
-            <div class="left-side-top-menu">
-              <a class="about-menu" href="#"></a>
-            </div>
-            <div class="right-side-top-menu">
-              <button class="sign-in">Sign In</button>
-            </div>
-          </nav>
-          <!--Search Main-->
-          <main class="main-content">
-            <p></p>
-            <h1>Multi Hash!</h1>
-            <a href="#"
-              ><img
-                class="keyboard"
-                src="https://www.gstatic.com/inputtools/images/tia.png"
-                alt=""
-            /></a>
-            <a href="#"
-              ><img
-                class="mic-json"
-                src="https://raw.githubusercontent.com/spux/json.rocks/gh-pages/images/googlemic_color_24dp.png"
-                alt=""
-            /></a>
-
-            <div class="search-bar">
-              <i class="fas fa-search"></i>
-
-              <input
-                type="text"
-                id="search"
-                name="uri"
-                placeholder="Mutihash or CID"
-                autofocus
-                value="${mh}"
-              />
-            </div>
-
-            <div class="btn-container">
-              <button onClick="${info}" class="json-search">
-                Info
-              </button>
-              <button onClick="${redirect}" class="lucky-btn">
-                Redirect
-              </button>
-            </div>
-          </main>
+          <${App} />
         `,
         document.body
       )
