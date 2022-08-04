@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="https://spux.org/json.rocks/favicon.ico" />
+    <link rel="icon" href="./favicon.ico" />
     <link rel="stylesheet" href="css/style.css" />
     <link
       rel="stylesheet"
@@ -14,7 +14,8 @@
       {
         "@id": "",
         "redirect": false,
-        "info": false
+        "info": false,
+        "gateway": "https://cloudflare-ipfs.com/ipfs/"
       }
     </script>
 
@@ -37,7 +38,10 @@
           this.info = this.info.bind(this)
 
           var mh = params.q || di.data.q
-          var gateway = params.gateway || 'https://cloudflare-ipfs.com/ipfs/'
+          var gateway =
+            params.gateway ||
+            di.data.gateway ||
+            'https://cloudflare-ipfs.com/ipfs/'
 
           if (params.r) {
             this.redirectAgent(gateway + mh)
@@ -103,7 +107,7 @@
                   type="text"
                   id="search"
                   name="uri"
-                  placeholder="Mutihash or CID"
+                  placeholder="Mutihash or CID or guess"
                   autofocus
                   value="${this.state.mh}"
                   onKeyUp="${this.change}"
