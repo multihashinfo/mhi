@@ -46,8 +46,10 @@
           this.change = this.change.bind(this)
           this.redirect = this.redirect.bind(this)
           this.info = this.info.bind(this)
+          this.setHash = this.setHash.bind(this)
 
           var mh = params.q || di.data.q
+          var info = params.info || di.data.info
           var gateway =
             params.gateway ||
             di.data.gateway ||
@@ -57,9 +59,12 @@
             this.redirectAgent(gateway + mh)
           }
 
+          if (mh) info = true
+
           this.state = {
             mh: mh,
-            gateway: gateway
+            gateway: gateway,
+            info: info
           }
         }
 
@@ -77,9 +82,19 @@
           location.href = uri
         }
 
+        setHash (e) {
+          console.log(e.target.title)
+          var title = e.target.title
+          this.setState({ mh: title, info: true })
+        }
+
         change (e) {
           console.log('change', e.target.value)
-          this.setState({ mh: e.target.value })
+          var obj = { mh: e.target.value }
+          if (e.target.value) {
+            obj.info = true
+          }
+          this.setState(obj)
         }
 
         render () {
@@ -129,19 +144,32 @@
                   >e.g. ${' | '}
                   ${di.data.examples.map(i => {
                     return html`
-                      <a href="${di.data.gateway + i.hash}">${i.name}</a
+                      <a title="${i.hash}" onClick="${this.setHash}" href="#"
+                        >${i.name}</a
                       >${' | '}
                     `
                   })}
                 </small>
               </div>
 
+              <div
+                style="align: left; padding-top: 10px; color: green; visibility: ${this
+                  .state.info
+                  ? 'visible'
+                  : 'hidden'} "
+              >
+                <pre>
+                  ${' '}Type : CID, Multi Base, Multi Hash ${' \n '} 
+                Len  : 46 ${' \n '} 
+                Base : base58 ${' \n '} 
+                Hash : ${this.state.mh}
+                </pre
+                >
+              </div>
+
               <div class="btn-container">
-                <button onClick="${this.info}" class="json-search">
-                  Info
-                </button>
                 <button onClick="${this.redirect}" class="lucky-btn">
-                  Redirect
+                  Locate
                 </button>
               </div>
             </main>
